@@ -93,36 +93,31 @@ export const getTopSkills = async (req, res) => {
 export const searchProfile = async (req, res) => {
   try {
     const { q } = req.query;
-    if (!q) return res.status(400).json({ error: "Query required" });
+
+    if (!q) {
+      return res.status(400).json({ message: "Search query missing" });
+    }
 
     const profile = await Profile.findOne();
-    if (!profile) return res.status(404).json({ error: "Profile not found" });
 
-    const query = normalize(q);
+    if (!profile) {
+      return res.status(404).json({ message: "Profile not found" });
+    }
 
-    const projects = profile.projects.filter((p) =>
-      p.title.toLowerCase().includes(q.toLowerCase()) ||
-      p.description.toLowerCase().includes(q.toLowerCase()) ||
-      (p.techStack || []).some((tech) => {
-        const t = normalize(tech);
+    const regex = new RegExp(q, "i");
 
-        if (t.includes(query)) return true;
-        if (skillAliases[query]?.some((alias) => t.includes(alias))) return true;
-
-        return false;
-      })
+    // 🔎 Filter matching projects manually
+    const matchedProjects = profile.projects.filter(project =>
+      regex.test(project.title) ||
+      regex.test(project.description) ||
+      project.techStack.some(tech => regex.test(tech))
     );
 
-    const skills = profile.skills.filter((s) =>
-      normalize(s).includes(query)
-    );
+    res.json({ projects: matchedProjects });
 
-    const nameMatch = normalize(profile.name).includes(query)
-      ? profile.name
-      : null;
-
-    res.json({ name: nameMatch, skills, projects });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  } catch (error) {
+    console.error("Search error:", error);
+    res.status(500).json({ message: "Server error" });
   }
 };
+

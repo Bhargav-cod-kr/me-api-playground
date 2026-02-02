@@ -6,7 +6,7 @@ export default function Search() {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [hasSearched, setHasSearched] = useState(false); // ⭐ important
+  const [hasSearched, setHasSearched] = useState(false);
 
   const search = async () => {
     if (!q.trim()) return;
@@ -16,7 +16,8 @@ export default function Search() {
       setError(null);
       setHasSearched(true); // mark search started
 
-      const res = await api.get(`/search?q=${q}`);
+      const res = await api.get(`/profile/search?q=${q}`);
+
       setResults(res.data.projects || []);
     } catch (err) {
       console.error(err);
