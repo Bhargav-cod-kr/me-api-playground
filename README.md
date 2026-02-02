@@ -42,12 +42,11 @@ The project emphasizes:
 - Node.js  
 - Express.js  
 - Mongoose  
-- Morgan (logging)  
 - CORS  
 - dotenv  
 
 ### **Database**
-- MongoDB (Atlas or local)
+- MongoDB (Atlas)
 
 ### **Other Tools**
 - Git  
@@ -101,8 +100,8 @@ ME-API-PLAYGROUND/
 │   │   │   └── Profile.js
 │   │   ├── routes/
 │   │   │   └── profileRoutes.js
-│   │   └── main.jsx
-│   └── index.js
+│   │   └── index.js
+│   └── package.json
 └── README.md
 ```
 
@@ -114,6 +113,7 @@ ME-API-PLAYGROUND/
 ```env
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
+
 ```
 
 ### Frontend `.env` (Optional)
@@ -129,14 +129,14 @@ VITE_API_URL=http://localhost:5000/api
 
 - Node.js (v18+ recommended)  
 - npm  
-- MongoDB Atlas account or local MongoDB  
+- MongoDB Atlas account 
 
 ---
 
 ### Backend Setup
 
 ```bash
-cd backend
+cd server
 npm install
 ```
 
@@ -147,7 +147,7 @@ Create `.env` file and add environment variables.
 ### Frontend Setup
 
 ```bash
-cd frontend
+cd client
 npm install
 ```
 
@@ -157,13 +157,13 @@ npm install
 
 ### Start Backend
 ```bash
-cd backend
+cd server
 npm run dev
 ```
 
 ### Start Frontend
 ```bash
-cd frontend
+cd client
 npm run dev
 ```
 
@@ -189,9 +189,9 @@ http://localhost:5000
 | `/api/profile` | POST | Create profile |
 | `/api/profile` | GET | Fetch profile |
 | `/api/profile` | PUT | Update profile |
-| `/api/projects?skill=` | GET | Filter projects by skill |
-| `/api/skills/top` | GET | Get skills list |
-| `/api/search?q=` | GET | Search projects & skills |
+| `/api/profile/projects?skill=` | GET | Filter projects by skill |
+| `/api/profile/skills/top` | GET | Get skills list |
+| `/api/profile/search?q=` | GET | Search projects & skills |
 
 ---
 
